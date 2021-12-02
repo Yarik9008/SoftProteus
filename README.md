@@ -1,1 +1,1 @@
-# SoftProteus
+# SoftProteus-2.0
