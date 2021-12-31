@@ -3,15 +3,15 @@ import socket
 import pickle
 import numpy as np
 
-max_length = 65000
+max_length = 650000
 
-DEBUG = True
+DEBUG = False
 
 if DEBUG:
     host = '127.0.0.1'
     port = 2224
 else:
-    host = '192.168.88.253'
+    host = '192.168.88.24'
     port = 5001
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((host, port))
@@ -41,7 +41,7 @@ while True:
                 cl=100
                 wig = int(frame.shape[1] *cl /100)
                 he = int(frame.shape[0] *cl /100)
-                # frame = cv2.resize(frame,(wig, he),interpolation=cv2.INTER_AREA)
+                frame = cv2.resize(frame,(wig, he),interpolation=cv2.INTER_AREA)
                 cv2.imshow("Stream", frame)
                 if cv2.waitKey(1) == 27:
                     break   
