@@ -210,8 +210,6 @@ class ApplicationGUI(QMainWindow, Ui_SoftProteus_2_0):
         self.textBrowser_2.append(str(dataMass['log']))
 
 
-
-
 class MainPost:
     def __init__(self):
         self.app = QApplication(sys.argv)
