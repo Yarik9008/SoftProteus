@@ -1,8 +1,7 @@
 import socket
-import threading  # модуль для разделения на потоки
 import logging
 import coloredlogs
-import os
+import sqlite3
 from datetime import datetime  # получение  времени
 from time import sleep  # сон
 from ast import literal_eval  # модуль для перевода строки в словарик
@@ -17,7 +16,7 @@ class MedaLogging:
         self.mylogs = logging.getLogger(__name__)
         self.mylogs.setLevel(logging.DEBUG)
         # обработчик записи в лог-файл
-        name = '0.2 GUI/logs/' + '-'.join('-'.join('-'.join(str(datetime.now()
+        name = 'logs/' + '-'.join('-'.join('-'.join(str(datetime.now()
                                                                 ).split()).split('.')).split(':')) + '.log'
         self.file = logging.FileHandler(name)
         self.fileformat = logging.Formatter(
@@ -70,7 +69,7 @@ class ServerPult:
     joystickrate - частота опроса джойстика 
     '''
 
-    def __init__(self, logger: MedaLogging, debug=False):
+    def __init__(self, logger: MedaLogging, hostmod='local'):
         # инициализация атрибутов
         self.JOYSTICKRATE = 0.2
         self.MotorPowerValue = 1
@@ -78,15 +77,18 @@ class ServerPult:
         self.checkConnect = False
         self.logger = logger
         # выбор режима: Отладка\Запуск на реальном аппарате
-        if debug:
+        if hostmod == 'local':
             self.HOST = '127.0.0.1'
-            self.PORT = 1115
-        else:
+            self.PORT = 1111
+        elif hostmod == 'real':
             self.HOST = '192.168.1.107'
-            self.PORT = 1236
+            self.PORT = 1235
+        else:
+            self.logger.error(f'ROV-Connected - error none host')
+            
         # настройка сервера
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM,)
-        print(self.HOST, self.PORT)
+        #print(self.HOST, self.PORT)
         self.server.bind((self.HOST, self.PORT))
         self.server.listen(1)
         self.user_socket, self.address = self.server.accept()
@@ -452,3 +454,45 @@ class MyControllerKeyboard:
         self.DataPult['j2-val-x'] = 0
         if self.telemetria:
             print('turn-stop')
+
+
+class MedaSQL:
+    '''
+    Класс описывающий взаимодействие с базой данных состоящий из двух таблиц:
+    1) mode_controll - таблица хранящая конфиги для режимов управления аппаратом
+    2) histori_mode - таблица хранящая изменения в режимах управления аппарата
+    
+    reqest_mode(<Название режима>) - получение конфига по названию режима
+    modification_mode(<название режима>,<набор новых параметров>) - изменение режима
+    logi_mode(<название режима>,<набор параметров>) - запись изменения конфигов
+    '''
+    def __init__(self):
+        self.db = sqlite3.connect("mode.db")
+        self.cursor = self.db.cursor()
+
+    def request_mode(self, NameMode):
+        #(<Название режима>) - получение конфига по названию режима
+        req = f"SELECT * FROM mode_controll WHERE name = '{NameMode}'"
+        return self.cursor.execute(req).fetchall()[0][2:]
+
+    def modification_mode(self, NameMode, MassData):
+        #(<название режима>,<набор новых параметров>) - изменение режима
+        lx = f"UPDATE mode_controll set lx = {MassData[0]}  WHERE name = '{NameMode}'"
+        ly = f"UPDATE mode_controll set ly = {MassData[1]}  WHERE name = '{NameMode}'"
+        rx = f"UPDATE mode_controll set rx = {MassData[2]}  WHERE name = '{NameMode}'"
+        ry = f"UPDATE mode_controll set ry = {MassData[3]}  WHERE name = '{NameMode}'"
+
+        self.cursor.execute(lx).fetchall()
+        self.cursor.execute(ly).fetchall()
+        self.cursor.execute(rx).fetchall()
+        self.cursor.execute(ry).fetchall()
+        self.db.commit()
+        self.logi_mode(NameMode, MassData)
+
+    def logi_mode(self, NameMode, MassData):
+        #(<название режима>,<набор параметров>) - запись изменения конфигов
+        t = '-'.join('-'.join('-'.join(str(datetime.now()).split()
+                                       ).split('.')).split(':'))
+        req = f"INSERT INTO histori_mode(time,name,lx,ly,rx,ry) VALUES('{t}','{NameMode}',{MassData[0]},{MassData[1]},{MassData[2]},{MassData[3]})"
+        self.cursor.execute(req).fetchall()
+        self.db.commit()

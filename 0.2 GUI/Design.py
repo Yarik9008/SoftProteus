@@ -47,6 +47,8 @@ class Ui_SoftProteus_2_0(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.logo = QtWidgets.QLabel(self.Main)
+        self.logo.setText("")
+        self.logo.setPixmap(QtGui.QPixmap("urс.png"))
         self.logo.setObjectName("logo")
         self.horizontalLayout.addWidget(self.logo)
         self.label_2 = QtWidgets.QLabel(self.Main)
@@ -228,7 +230,7 @@ class Ui_SoftProteus_2_0(object):
         SoftProteus_2_0.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(SoftProteus_2_0)
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(SoftProteus_2_0)
 
     def retranslateUi(self, SoftProteus_2_0):
@@ -239,7 +241,6 @@ class Ui_SoftProteus_2_0(object):
         self.min.setText(_translate("SoftProteus_2_0", "Min "))
         self.Work.setText(_translate("SoftProteus_2_0", "Work"))
         self.Nitro.setText(_translate("SoftProteus_2_0", "Nitro"))
-        self.logo.setText(_translate("SoftProteus_2_0", "logo"))
         self.label_2.setText(_translate("SoftProteus_2_0", "<html><head/><body><p align=\"right\"><span style=\" font-size:18pt; font-weight:600; color:#00aaff;\">Term</span></p></body></html>"))
         self.label.setText(_translate("SoftProteus_2_0", "<html><head/><body><p align=\"right\"><span style=\" font-size:18pt; font-weight:600; color:#00aaff;\">Dept</span></p></body></html>"))
         self.label_3.setText(_translate("SoftProteus_2_0", "<html><head/><body><p align=\"right\"><span style=\" font-size:18pt; font-weight:600; color:#00aaff;\">Azim</span></p></body></html>"))
