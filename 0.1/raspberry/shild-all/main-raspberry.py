@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import socket  # библиотека для связи
 import board
 import busio
