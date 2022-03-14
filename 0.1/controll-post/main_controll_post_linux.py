@@ -58,7 +58,6 @@ class MedaLogging:
         '''ребята я сваливаю ща рванет !!!!'''
         self.mylogs.error(message)
 
-
 class ServerMainPult:
     '''
     Класс описывающий систему бекенд- пульта
