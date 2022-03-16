@@ -1,5 +1,5 @@
 1) Установить Python:
-    (при установки питона необходимо скачать)
+    (при установки питона необходимо поставить pip и добавить в path)
     https://www.python.org/downloads/
 
 
@@ -11,7 +11,8 @@
 3) Установить гит:
     https://git-scm.com/download/win
 
-    3.1) настроить параметры username и email 
+    3.1) настроить параметры username и email
+
         git config --global user.name имя 
         git config --global user.email почта 
     

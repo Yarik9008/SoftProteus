@@ -3,9 +3,12 @@ import threading  # модуль для разделения на потоки
 import logging
 import coloredlogs
 import os
+import json
+import pygame
 from datetime import datetime  # получение  времени
 from time import sleep  # сон
-from ast import literal_eval  # модуль для перевода строки в словарик
+from ast import literal_eval  # модуль для перевода строк в словарик
+
 
 
 DEBUG = False
@@ -115,6 +118,91 @@ class ServerMainPult:
             if self.telemetria:
                 self.logger.debug(str(data))
 
+class MyControllerPyGame:
+    def __init__(self) -> None:
+        self.DataPult = {'j1-val-y': 0, 'j1-val-x': 0,
+                         'j2-val-y': 0, 'j2-val-x': 0,
+                         'ly-cor': 0, 'lx-cor': 0,
+                         'ry-cor': 0, 'rx-cor': 0,
+                         'man': 90, 'servoCam': 90,
+                         'led': False, 'auto-dept': False}
+
+        self.log = True
+        self.telemetria = False
+        self.optionscontrol = False
+        self.nitro = False
+        self.pygame = pygame.init()
+        try:
+            joysticks = []
+            for i in range(self.pygame.joystick.get_count()):
+                joysticks.append(self.pygame.joystick.Joystick(i))
+            for joystick in joysticks:
+                joystick.init()
+            # подгрузка конфига джойстика
+            with open(os.path.join("ps4_keys.json"), 'r+') as file:
+                self.button_keys = json.load(file)
+            if not joysticks:
+                self.joy_control = False
+            # 0: Left analog horizonal 
+            # 1: Left Analog Vertical
+            # 2: Right Analog Horizontal
+            # 3: Right Analog Vertical 
+            # 4: Left Trigger
+            # 5: Right Trigger
+            self.analog_keys = {0: 0, 1: 0, 2: 0, 3: 0, 4: -1, 5: -1}
+        except:
+            print('error ps4 pygame')
+        
+    def listen(self):
+        while True:
+            for event in self.pygame.event.get():
+                # HANDLES BUTTON PRESSES
+                if event.type == pygame.JOYBUTTONDOWN:
+                    if event.button == self.button_keys['left_arrow']:
+                        LEFT = True
+                    if event.button == self.button_keys['right_arrow']:
+                        RIGHT = True
+                    if event.button == self.button_keys['down_arrow']:
+                        DOWN = True
+                    if event.button == self.button_keys['up_arrow']:
+                        UP = True
+                # HANDLES BUTTON RELEASES
+                if event.type == pygame.JOYBUTTONUP:
+                    if event.button == self.button_keys['left_arrow']:
+                        LEFT = False
+                    if event.button == self.button_keys['right_arrow']:
+                        RIGHT = False
+                    if event.button == self.button_keys['down_arrow']:
+                        DOWN = False
+                    if event.button == self.button_keys['up_arrow']:
+                        UP = False
+
+                #HANDLES ANALOG INPUTS
+                if event.type == pygame.JOYAXISMOTION:
+                    self.analog_keys[event.axis] = event.value
+                    # Horizontal Analog
+                    if abs(self.analog_keys[0]) > .4:
+                        if self.analog_keys[0] < -.7:
+                            LEFT = True
+                        else:
+                            LEFT = False
+                        if self.analog_keys[0] > .7:
+                            RIGHT = True
+                        else:
+                            RIGHT = False
+                    # Vertical Analog
+                    if abs(self.analog_keys[1]) > .4:
+                        if self.analog_keys[1] < -.7:
+                            UP = True
+                        else:
+                            UP = False
+                        if self.analog_keys[1] > .7:
+                            DOWN = True
+                        else:
+                            DOWN = False
+                        # Triggers
+
+        
 
 class MyController(Controller):
     '''
