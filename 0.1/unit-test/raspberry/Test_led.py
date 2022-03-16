@@ -11,7 +11,5 @@ canal = 8
 kit.servo[canal].angle = 180
 time.sleep(5)
 kit.servo[canal].angle = 0
-time.sleep(5)
-kit.servo[canal].angle = 90
 print('final')
 
