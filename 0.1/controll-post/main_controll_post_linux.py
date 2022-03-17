@@ -81,7 +81,7 @@ class ServerMainPult:
             self.HOST = '127.0.0.1'
             self.PORT = 1112
         else:
-            self.HOST = '192.168.1.100'
+            self.HOST = '192.168.2.100'
             self.PORT = 1235
             
             
