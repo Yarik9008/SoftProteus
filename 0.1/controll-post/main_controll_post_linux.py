@@ -1,7 +1,7 @@
 import socket
 import threading  # модуль для разделения на потоки
 import logging
-import coloredlogs
+#import coloredlogs
 import os
 from datetime import datetime  # получение  времени
 from time import sleep  # сон
@@ -33,8 +33,8 @@ class MedaLogging:
         # инициализация обработчиков
         self.mylogs.addHandler(self.file)
         self.mylogs.addHandler(self.stream)
-        coloredlogs.install(level=logging.DEBUG, logger=self.mylogs,
-                            fmt='%(asctime)s [%(levelname)s] - %(message)s')
+        #coloredlogs.install(level=logging.DEBUG, logger=self.mylogs,
+                            #fmt='%(asctime)s [%(levelname)s] - %(message)s')
 
         self.mylogs.info('start-logging')
 
