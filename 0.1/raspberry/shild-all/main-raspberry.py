@@ -2,7 +2,7 @@ import socket  # библиотека для связи
 import board
 import busio
 import logging
-import coloredlogs
+#import coloredlogs
 import os
 from time import sleep  # библиотека длязадержек
 from datetime import datetime  # получение текущего времени
@@ -40,8 +40,8 @@ class MedaLogging:
         # инициализация обработчиков
         self.mylogs.addHandler(self.file)
         self.mylogs.addHandler(self.stream)
-        coloredlogs.install(level=logging.DEBUG, logger=self.mylogs,
-                            fmt='%(asctime)s [%(levelname)s] - %(message)s')
+        #coloredlogs.install(level=logging.DEBUG, logger=self.mylogs,
+                            #fmt='%(asctime)s [%(levelname)s] - %(message)s')
 
         self.mylogs.info('start-logging')
 
