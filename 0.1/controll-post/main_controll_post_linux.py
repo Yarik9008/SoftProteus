@@ -88,7 +88,7 @@ class ServerMainPult:
         # настройка сервера
         self.server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM,)
         self.server.bind((self.HOST, self.PORT))
-        self.server.listen(1)
+        #self.server.listen(1)
         self.user_socket, self.address = self.server.accept()
         self.checkConnect = True
 
@@ -437,7 +437,7 @@ class MainPost:
             # Запись управляющего массива в лог 
             if self.telemetria:
                 self.lodi.debug('DataOutput - {self.DataOutput}')
-                
+
             # отправка и прием сообщений
             self.Server.ControlProteus(self.DataOutput)
             self.DataInput = self.Server.ReceiverProteus()
