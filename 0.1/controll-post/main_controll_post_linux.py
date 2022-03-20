@@ -71,7 +71,7 @@ class ServerMainPult:
 
     def __init__(self, logger: MedaLogging, debug=False):
         # инициализация атрибутов
-        self.JOYSTICKRATE = 0.2
+        self.JOYSTICKRATE = 0.1
         self.MotorPowerValue = 1
         self.telemetria = False
         self.checkConnect = False
@@ -252,7 +252,7 @@ class MyController(Controller):
             if self.DataPult['ry-cor'] >= - 50:
                 self.DataPult['ry-cor'] -= 10
         else:
-           self.DataPult['servoCam'] = 1
+           self.DataPult['servoCam'] = 5
 
     def on_x_release(self):
         self.DataPult['servoCam'] = 0
@@ -263,7 +263,7 @@ class MyController(Controller):
             if self.DataPult['ry-cor'] <= 50:
                 self.DataPult['ry-cor'] += 10
         else:
-            self.DataPult['servoCam'] = -1
+            self.DataPult['servoCam'] = -5
 
     def on_triangle_release(self):
         self.DataPult['servoCam'] = 0 
