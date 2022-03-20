@@ -70,7 +70,7 @@ class ROVProteusClient:
         self.telemetria = True
         self.checkConnect = True      
         # Настройки клиента 
-        self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM,)
+        self.client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM,)
         self.client.connect((self.HOST, self.PORT))  # подключение адресс  порт
 
     def ClientDispatch(self, data:dict):

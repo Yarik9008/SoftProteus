@@ -254,6 +254,9 @@ class MyController(Controller):
         else:
            self.DataPult['servoCam'] = 1
 
+    def on_x_release(self):
+        self.DataPult['servoCam'] = 0
+
     def on_triangle_press(self):
         '''Нажатие на триугольник'''
         if self.optionscontrol:
@@ -262,14 +265,16 @@ class MyController(Controller):
         else:
             self.DataPult['servoCam'] = -1
 
+    def on_triangle_release(self):
+        self.DataPult['servoCam'] = 0 
+
     def on_square_press(self):
         '''Нажатие на круг'''
         if self.optionscontrol:
             if self.DataPult['rx-cor'] <= 50:
                 self.DataPult['rx-cor'] += 10
         else:
-            if self.DataPult['man'] <= 140:
-                self.DataPult['man'] += 40
+            self.DataPult['man'] = True
 
     def on_circle_press(self):
         '''Нажатие на квадрат'''
@@ -277,10 +282,10 @@ class MyController(Controller):
             if self.DataPult['rx-cor'] >= -50:
                 self.DataPult['rx-cor'] -= 10
         else:
-            if self.DataPult['man'] >= 40:
-                self.DataPult['man'] -= 40
+            self.DataPult['man'] = False
 
     def on_up_arrow_press(self):
+        '''нажатие на стрелку вверх'''
         if self.optionscontrol:
             if self.DataPult['ly-cor'] >= -50:
                 self.DataPult['ly-cor'] -= 10
@@ -314,8 +319,8 @@ class MyController(Controller):
         self.DataPult['ry-cor'] = 0
         '''Приведение всех значений в исходное положение'''
         self.DataPult['auto-dept'] = False
-        self.DataPult['servoCam'] = 90
-        self.DataPult['man'] = 90
+        self.DataPult['servoCam'] = 0
+        self.DataPult['man'] = False
         self.DataPult['led'] = False
         self.nitro = False
 
@@ -326,7 +331,7 @@ class MainPost:
         self.DataOutput = {'time': None,  # Текущее время
                            'motorpowervalue': 1,  # мощность моторов
                            'led': False,  # управление светом
-                           'man': 90,  # Управление манипулятором
+                           'man': 0,  # Управление манипулятором
                            'servoCam': 90,  # управление наклоном камеры
                            'motor0': 0, 'motor1': 0,  # значения мощности на каждый мотор
                            'motor2': 0, 'motor3': 0,
@@ -416,11 +421,23 @@ class MainPost:
             self.DataOutput["time"] = str(datetime.now())
 
             self.DataOutput['led'] = data['led']
-            self.DataOutput['man'] = data['man']
-            self.DataOutput['servoCam'] += data['servoCam']
+
+            # данные для манипулятора
+            if data['man']:
+                self.DataOutput['man'] = 180
+            else:
+                self.DataOutput['man'] = 0
+
+            # данные для сервы камеры 
+            if self.DataOutput['servoCam'] < 180 and data['servoCam'] == 1: 
+                self.DataOutput['servoCam'] += data['servoCam']
+            elif self.DataOutput['servoCam'] > 0 and data['servoCam'] == -1:
+                self.DataOutput['servoCam'] += data['servoCam']
+
             # Запись управляющего массива в лог 
             if self.telemetria:
                 self.lodi.debug('DataOutput - {self.DataOutput}')
+                
             # отправка и прием сообщений
             self.Server.ControlProteus(self.DataOutput)
             self.DataInput = self.Server.ReceiverProteus()
