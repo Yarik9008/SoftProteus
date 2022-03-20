@@ -86,7 +86,7 @@ class ServerMainPult:
             
             
         # настройка сервера
-        self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM,)
+        self.server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM,)
         self.server.bind((self.HOST, self.PORT))
         self.server.listen(1)
         self.user_socket, self.address = self.server.accept()
@@ -139,7 +139,7 @@ class MyController(Controller):
                          'j2-val-y': 0, 'j2-val-x': 0,
                          'ly-cor': 0, 'lx-cor': 0,
                          'ry-cor': 0, 'rx-cor': 0,
-                         'man': 90, 'servoCam': 90,
+                         'man': False, 'servoCam': 0,
                          'led': False, 'auto-dept': False}
         self.log = True
         self.telemetria = False
@@ -252,8 +252,7 @@ class MyController(Controller):
             if self.DataPult['ry-cor'] >= - 50:
                 self.DataPult['ry-cor'] -= 10
         else:
-            if self.DataPult['servoCam'] <= 170:
-                self.DataPult['servoCam'] += 10
+           self.DataPult['servoCam'] = 1
 
     def on_triangle_press(self):
         '''Нажатие на триугольник'''
@@ -261,8 +260,7 @@ class MyController(Controller):
             if self.DataPult['ry-cor'] <= 50:
                 self.DataPult['ry-cor'] += 10
         else:
-            if self.DataPult['servoCam'] >= 10:
-                self.DataPult['servoCam'] -= 10
+            self.DataPult['servoCam'] = -1
 
     def on_square_press(self):
         '''Нажатие на круг'''
@@ -270,8 +268,8 @@ class MyController(Controller):
             if self.DataPult['rx-cor'] <= 50:
                 self.DataPult['rx-cor'] += 10
         else:
-            if self.DataPult['man'] <= 150:
-                self.DataPult['man'] += 20
+            if self.DataPult['man'] <= 140:
+                self.DataPult['man'] += 40
 
     def on_circle_press(self):
         '''Нажатие на квадрат'''
@@ -280,7 +278,7 @@ class MyController(Controller):
                 self.DataPult['rx-cor'] -= 10
         else:
             if self.DataPult['man'] >= 40:
-                self.DataPult['man'] -= 20
+                self.DataPult['man'] -= 40
 
     def on_up_arrow_press(self):
         if self.optionscontrol:
@@ -419,7 +417,7 @@ class MainPost:
 
             self.DataOutput['led'] = data['led']
             self.DataOutput['man'] = data['man']
-            self.DataOutput['servoCam'] = data['servoCam']
+            self.DataOutput['servoCam'] += data['servoCam']
             # Запись управляющего массива в лог 
             if self.telemetria:
                 self.lodi.debug('DataOutput - {self.DataOutput}')

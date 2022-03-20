@@ -124,7 +124,7 @@ class MyControllerPyGame:
                          'j2-val-y': 0, 'j2-val-x': 0,
                          'ly-cor': 0, 'lx-cor': 0,
                          'ry-cor': 0, 'rx-cor': 0,
-                         'man': 90, 'servoCam': 90,
+                         'man': 90, 'servoCam': 0,
                          'led': False, 'auto-dept': False}
 
         self.log = True
@@ -227,7 +227,7 @@ class MyController(Controller):
                          'j2-val-y': 0, 'j2-val-x': 0,
                          'ly-cor': 0, 'lx-cor': 0,
                          'ry-cor': 0, 'rx-cor': 0,
-                         'man': 90, 'servoCam': 90,
+                         'man': 90, 'servoCam': 0,
                          'led': False, 'auto-dept': False}
         self.log = True
         self.telemetria = False
@@ -312,18 +312,18 @@ class MyController(Controller):
     def on_R3_left(self, value):
         '''Разворот налево'''
         if self.nitro:
-            self.DataPult['j1-val-x'] =  value // 3
+            self.DataPult['j1-val-x'] =  - 1 * value // 3
         else:
-            self.DataPult['j1-val-x'] = value // 6
+            self.DataPult['j1-val-x'] = -1 * value // 6
         if self.telemetria:
             print('turn-left')
 
     def on_R3_right(self, value):
         '''Разворот направо'''
         if self.nitro:
-            self.DataPult['j1-val-x'] =  value // 3
+            self.DataPult['j1-val-x'] = -1 * value // 3
         else:
-            self.DataPult['j1-val-x'] = value // 6
+            self.DataPult['j1-val-x'] = -1 * value // 6
         if self.telemetria:
             print('turn-left')
 
