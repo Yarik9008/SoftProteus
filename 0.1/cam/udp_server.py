@@ -39,8 +39,8 @@ while True:
             frame = cv2.imdecode(frame, cv2.IMREAD_COLOR)
             if frame is not None and type(frame) == np.ndarray:
                 cl=100
-                wig = int(frame.shape[1] *cl / 75)
-                he = int(frame.shape[0] *cl / 75)
+                wig = int(frame.shape[1] * cl / 85)
+                he = int(frame.shape[0] * cl / 85)
                 frame = cv2.resize(frame,(wig, he),interpolation=cv2.INTER_AREA)
                 cv2.imshow("Stream", frame)
                 if cv2.waitKey(1) == 27:
