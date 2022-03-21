@@ -429,9 +429,9 @@ class MainPost:
                 self.DataOutput['man'] = 0
 
             # данные для сервы камеры 
-            if self.DataOutput['servoCam'] < 180 and data['servoCam'] == 1: 
+            if self.DataOutput['servoCam'] < 180 and data['servoCam'] == 5: 
                 self.DataOutput['servoCam'] += data['servoCam']
-            elif self.DataOutput['servoCam'] > 0 and data['servoCam'] == -1:
+            elif self.DataOutput['servoCam'] > 0 and data['servoCam'] == -5:
                 self.DataOutput['servoCam'] += data['servoCam']
 
             # Запись управляющего массива в лог 
