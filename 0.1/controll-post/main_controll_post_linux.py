@@ -176,7 +176,7 @@ class MyController(Controller):
     def on_L3_left(self, value):
         '''Движение влево (лаг) '''
         if self.nitro:
-            self.DataPult['j2-val-x'] =   value 
+            self.DataPult['j2-val-x'] = value 
         else:
             self.DataPult['j2-val-x'] = value // 2
         if self.telemetria:
@@ -185,7 +185,7 @@ class MyController(Controller):
     def on_L3_right(self, value):
         '''Движение вправо (лаг) '''
         if self.nitro:
-            self.DataPult['j2-val-x'] =   value 
+            self.DataPult['j2-val-x'] = value 
         else:
             self.DataPult['j2-val-x'] = value // 2
         if self.telemetria:
@@ -200,7 +200,7 @@ class MyController(Controller):
     def on_R3_up(self, value):
         '''Вперед'''
         if self.nitro:
-            self.DataPult['j1-val-y'] = -1*  value 
+            self.DataPult['j1-val-y'] = -1 *  value 
         else:
             self.DataPult['j1-val-y'] = -1 * value // 2
         if self.telemetria:
@@ -209,7 +209,7 @@ class MyController(Controller):
     def on_R3_down(self, value):
         '''назад'''
         if self.nitro:
-            self.DataPult['j1-val-y'] = -1* value 
+            self.DataPult['j1-val-y'] = -1 * value 
         else:
             self.DataPult['j1-val-y'] = -1 * value // 2
         if self.telemetria:
@@ -224,18 +224,18 @@ class MyController(Controller):
     def on_R3_left(self, value):
         '''Разворот налево'''
         if self.nitro:
-            self.DataPult['j1-val-x'] =  value // 3
+            self.DataPult['j1-val-x'] = -1 * value // 3
         else:
-            self.DataPult['j1-val-x'] = value // 6
+            self.DataPult['j1-val-x'] = -1 * value // 6
         if self.telemetria:
             print('turn-left')
 
     def on_R3_right(self, value):
         '''Разворот направо'''
         if self.nitro:
-            self.DataPult['j1-val-x'] =  value // 3
+            self.DataPult['j1-val-x'] = -1 * value // 3
         else:
-            self.DataPult['j1-val-x'] = value // 6
+            self.DataPult['j1-val-x'] = -1 * value // 6
         if self.telemetria:
             print('turn-left')
 
@@ -249,7 +249,7 @@ class MyController(Controller):
     def on_x_press(self):
         '''Нажатие на крестик'''
         if self.optionscontrol:
-            if self.DataPult['ry-cor'] >= - 50:
+            if self.DataPult['ry-cor'] >= -50:
                 self.DataPult['ry-cor'] -= 10
         else:
            self.DataPult['servoCam'] = 5
