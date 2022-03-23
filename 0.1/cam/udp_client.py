@@ -4,7 +4,7 @@ import math
 import pickle
 import sys
 
-DEBUG = False
+DEBUG = True
 
 max_length = 65000
 if DEBUG:

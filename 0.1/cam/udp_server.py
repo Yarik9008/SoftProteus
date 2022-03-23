@@ -5,7 +5,7 @@ import numpy as np
 
 max_length = 650000
 
-DEBUG = False
+DEBUG = True
 
 if DEBUG:
     host = '127.0.0.1'
