@@ -9,7 +9,7 @@ from ast import literal_eval  # модуль для перевода строк�
 from pyPS4Controller.controller import Controller
 from configparser import ConfigParser
 
-DEBUG = False
+DEBUG = True
 
 # PATCH = ''
 
@@ -88,10 +88,10 @@ class ServerMainPult:
         # выбор режима: Отладка\Запуск на реальном аппарате
         if debug:
             self.HOST = '127.0.0.1'
-            self.PORT = 1112
+            self.PORT = 1120
         else:
             self.HOST = '192.168.88.5'
-            self.PORT = 2268
+            self.PORT = 2270
             
             
         # настройка сервера
@@ -424,17 +424,15 @@ class MainPost:
                 J2_Val_Y = transformation(data['j2-val-y'])
                 J2_Val_X = transformation(data['j2-val-x'])
 
-            self.DataOutput['motor0'] = defense(
-                J1_Val_Y + J1_Val_X + J2_Val_X - 100)
-            self.DataOutput['motor1'] = defense(
-                J1_Val_Y - J1_Val_X - J2_Val_X + 100)
-            self.DataOutput['motor2'] = defense(
-                (-1 * J1_Val_Y) - J1_Val_X + J2_Val_X + 100)
-            self.DataOutput['motor3'] = defense(
-                (-1 * J1_Val_Y) + J1_Val_X - J2_Val_X + 100)
+            self.DataOutput['motor2'] = defense(J1_Val_Y + J1_Val_X + J2_Val_X - 100)
+            self.DataOutput['motor0'] = defense(J1_Val_Y - J1_Val_X - J2_Val_X + 100)
+            self.DataOutput['motor1'] = defense((-1 * J1_Val_Y) - J1_Val_X + J2_Val_X + 100)
+            self.DataOutput['motor3'] = defense((-1 * J1_Val_Y) + J1_Val_X - J2_Val_X + 100)
             # Подготовка массива для отправки на аппарат
             self.DataOutput['motor4'] = defense(J2_Val_Y)
             self.DataOutput['motor5'] = defense(J2_Val_Y)
+
+            print(self.DataOutput)
 
             self.DataOutput["time"] = str(datetime.now())
 
@@ -463,8 +461,8 @@ class MainPost:
             if self.telemetria:
                 self.lodi.debug('DataInput - {self.DataInput}')
             # возможность вывода принимаемой информации в соммандную строку
-            if CmdMod:
-                print(self.DataInput)
+            # if CmdMod:
+            #     print(self.DataInput)
             # Проверка условия убийства сокета 
             if self.checkKILL:
                 self.Server.server.close()
