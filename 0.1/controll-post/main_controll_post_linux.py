@@ -91,7 +91,7 @@ class ServerMainPult:
             self.PORT = 1112
         else:
             self.HOST = '192.168.88.5'
-            self.PORT = 1302
+            self.PORT = 1303
             
             
         # настройка сервера
