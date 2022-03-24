@@ -189,9 +189,9 @@ class MyController(Controller):
         '''Движение влево (лаг) '''
         if abs(value) > 15000: 
             if self.nitro:
-                self.DataPult['j2-val-x'] = value 
+                self.DataPult['j2-val-x'] = -1 * value 
             else:
-                self.DataPult['j2-val-x'] = value // 2
+                self.DataPult['j2-val-x'] = -1 * value // 2
             if self.telemetria:
                 print('left')
 
