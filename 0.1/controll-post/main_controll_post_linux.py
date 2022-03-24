@@ -1,3 +1,4 @@
+from msilib.schema import Patch
 import socket
 import threading  # модуль для разделения на потоки
 import logging
@@ -7,8 +8,17 @@ from datetime import datetime  # получение  времени
 from time import sleep  # сон
 from ast import literal_eval  # модуль для перевода строки в словарик
 from pyPS4Controller.controller import Controller
+from configparser import ConfigParser
 
 DEBUG = False
+
+# PATCH = ''
+
+# class RovConfig:
+#     def __init__(self, path:str) -> None:
+        
+#         self.config = ConfigParser()
+#         self.config.read(path)
 
 class MedaLogging:
     '''Класс отвечающий за логирование. Логи пишуться в файл, так же выводться в консоль'''
@@ -81,18 +91,19 @@ class ServerMainPult:
             self.HOST = '127.0.0.1'
             self.PORT = 1112
         else:
-            self.HOST = '192.168.2.103'
+            self.HOST = '192.168.88.5'
             self.PORT = 1235
             
             
         # настройка сервера
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM,)
         self.server.bind((self.HOST, self.PORT))
+        self.logger.info('ROV - waiting for connection')
         self.server.listen(1)
         self.user_socket, self.address = self.server.accept()
         self.checkConnect = True
 
-        self.logger.info(f'ROV-Connected - {self.user_socket}')
+        self.logger.info(f'ROV - Connected - {self.user_socket}')
 
     def ReceiverProteus(self):
         '''Прием информации с аппарата'''
@@ -101,7 +112,7 @@ class ServerMainPult:
             if len(data) == 0:
                 self.server.close()
                 self.checkConnect = False
-                self.logger.info(f'ROV-disconnection - {self.user_socket}')
+                self.logger.info(f'ROV - disconnection - {self.user_socket}')
                 return None
             data = dict(literal_eval(str(data.decode('utf-8'))))
             if self.telemetria:
@@ -157,15 +168,17 @@ class MyController(Controller):
     # блок опроса джойстиков
     def on_L3_up(self, value):
         '''погружение'''
-        self.DataPult['j2-val-y'] =  value
-        if self.telemetria:
-            print('forward')
+        if value > 15000:
+            self.DataPult['j2-val-y'] =  value
+            if self.telemetria:
+                print('forward')
 
     def on_L3_down(self, value):
         '''всплытие'''
-        self.DataPult['j2-val-y'] =  value
-        if self.telemetria:
-            print('back')
+        if value < 15000:
+            self.DataPult['j2-val-y'] =  value
+            if self.telemetria:
+                print('back')
 
     def on_L3_y_at_rest(self):
         '''Обнуление'''
@@ -175,21 +188,23 @@ class MyController(Controller):
 
     def on_L3_left(self, value):
         '''Движение влево (лаг) '''
-        if self.nitro:
-            self.DataPult['j2-val-x'] = value 
-        else:
-            self.DataPult['j2-val-x'] = value // 2
-        if self.telemetria:
-            print('left')
+        if value > 15000: 
+            if self.nitro:
+                self.DataPult['j2-val-x'] = value 
+            else:
+                self.DataPult['j2-val-x'] = value // 2
+            if self.telemetria:
+                print('left')
 
     def on_L3_right(self, value):
         '''Движение вправо (лаг) '''
-        if self.nitro:
-            self.DataPult['j2-val-x'] = value 
-        else:
-            self.DataPult['j2-val-x'] = value // 2
-        if self.telemetria:
-            print('right')
+        if value > 15000:
+            if self.nitro:
+                self.DataPult['j2-val-x'] = value 
+            else:
+                self.DataPult['j2-val-x'] = value // 2
+            if self.telemetria:
+                print('right')
 
     def on_L3_x_at_rest(self):
         '''Обнуление'''
@@ -199,21 +214,23 @@ class MyController(Controller):
 
     def on_R3_up(self, value):
         '''Вперед'''
-        if self.nitro:
-            self.DataPult['j1-val-y'] = -1 *  value 
-        else:
-            self.DataPult['j1-val-y'] = -1 * value // 2
-        if self.telemetria:
-            print('up')
+        if value> 15000:
+            if self.nitro:
+                self.DataPult['j1-val-y'] = -1 *  value 
+            else:
+                self.DataPult['j1-val-y'] = -1 * value // 2
+            if self.telemetria:
+                print('up')
 
     def on_R3_down(self, value):
         '''назад'''
-        if self.nitro:
-            self.DataPult['j1-val-y'] = -1 * value 
-        else:
-            self.DataPult['j1-val-y'] = -1 * value // 2
-        if self.telemetria:
-            print('down')
+        if value > 15000:
+            if self.nitro:
+                self.DataPult['j1-val-y'] = -1 * value 
+            else:
+                self.DataPult['j1-val-y'] = -1 * value // 2
+            if self.telemetria:
+                print('down')
 
     def on_R3_y_at_rest(self):
         '''Обнуление'''
@@ -223,21 +240,23 @@ class MyController(Controller):
 
     def on_R3_left(self, value):
         '''Разворот налево'''
-        if self.nitro:
-            self.DataPult['j1-val-x'] = -1 * value // 3
-        else:
-            self.DataPult['j1-val-x'] = -1 * value // 6
-        if self.telemetria:
-            print('turn-left')
+        if value > 15000:
+            if self.nitro:
+                self.DataPult['j1-val-x'] = -1 * value // 3
+            else:
+                self.DataPult['j1-val-x'] = -1 * value // 6
+            if self.telemetria:
+                print('turn-left')
 
     def on_R3_right(self, value):
         '''Разворот направо'''
-        if self.nitro:
-            self.DataPult['j1-val-x'] = -1 * value // 3
-        else:
-            self.DataPult['j1-val-x'] = -1 * value // 6
-        if self.telemetria:
-            print('turn-left')
+        if value > 15000:
+            if self.nitro:
+                self.DataPult['j1-val-x'] = -1 * value // 3
+            else:
+                self.DataPult['j1-val-x'] = -1 * value // 6
+            if self.telemetria:
+                print('turn-left')
 
     def on_R3_x_at_rest(self):
         '''Обнуление'''

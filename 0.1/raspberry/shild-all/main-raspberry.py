@@ -65,7 +65,7 @@ class ROVProteusClient:
     #Класс ответсвенный за связь с постом 
     def __init__(self, logger:MedaLogging):
         self.logger = logger
-        self.HOST = '192.168.2.103'
+        self.HOST = '192.168.88.5'
         self.PORT = 1235
         self.telemetria = True
         self.checkConnect = True      
@@ -190,6 +190,7 @@ class DeptAndTemp:
         if self.sensor.init():
             self.sensor.setFluidDensity(ms5837.DENSITY_SALTWATER)
             self.sensor.setFluidDensity(density)
+            self.dept_defolt = round(self.sensor.depth(), 3)
             self.logger.info('DEPT-SENSOR-init')
         else:
             self.logger.critical('NO-SENSOR-DEPT')
@@ -199,7 +200,7 @@ class DeptAndTemp:
         # опрос датчика давления
         if self.sensor.read():
             massout = {}
-            massout['dept'] = round(self.sensor.depth(), 3)
+            massout['dept'] = round(self.sensor.depth(), 3) - self.dept_defolt
             massout['term'] = round(self.sensor.temperature(), 3)
             return massout
         else:
