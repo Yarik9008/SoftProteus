@@ -228,13 +228,13 @@ class PwmControl:
         except:
             self.logger.critical('NO-PWM-CONTROL')
 
-        self.drk0 = self.kit.servo[0]
+        self.drk0 = self.kit.servo[2]
         self.drk0.set_pulse_width_range(self.pwmMin, self.pwmMax)
-        self.drk1 = self.kit.servo[2]
+        self.drk1 = self.kit.servo[1]
         self.drk1.set_pulse_width_range(self.pwmMin, self.pwmMax)
-        self.drk2 = self.kit.servo[1]
+        self.drk2 = self.kit.servo[3]
         self.drk2.set_pulse_width_range(self.pwmMin, self.pwmMax)
-        self.drk3 = self.kit.servo[3]
+        self.drk3 = self.kit.servo[0]
         self.drk3.set_pulse_width_range(self.pwmMin, self.pwmMax)
         self.drk4 = self.kit.servo[4]
         self.drk4.set_pulse_width_range(self.pwmMin, self.pwmMax)
@@ -329,11 +329,11 @@ class Command:
             return value
         
     def commanda(self, command):
-        command['motor0'] = self.safety((180 - command['motor0'] * 1.8) - 3)
+        command['motor0'] = self.safety((command['motor0'] * 1.8) - 3)
         command['motor1'] = self.safety((command['motor1'] * 1.8) - 3)
         command['motor2'] = self.safety((command['motor2'] * 1.8) - 3)
         command['motor3'] = self.safety((command['motor3'] * 1.8) - 3)
-        command['motor4'] = self.safety((180 - command['motor4'] * 1.8) - 3)
+        command['motor4'] = self.safety((command['motor4'] * 1.8) - 3)
         command['motor5'] = self.safety((command['motor5'] * 1.8) - 3)
         self.pwmcom.ControlMotor(command)
 
