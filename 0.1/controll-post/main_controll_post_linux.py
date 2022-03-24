@@ -424,14 +424,10 @@ class MainPost:
                 J2_Val_Y = transformation(data['j2-val-y'])
                 J2_Val_X = transformation(data['j2-val-x'])
 
-            self.DataOutput['motor0'] = defense(
-                J1_Val_Y + J1_Val_X + J2_Val_X - 100)
-            self.DataOutput['motor1'] = defense(
-                J1_Val_Y - J1_Val_X - J2_Val_X + 100)
-            self.DataOutput['motor2'] = defense(
-                (-1 * J1_Val_Y) - J1_Val_X + J2_Val_X + 100)
-            self.DataOutput['motor3'] = defense(
-                (-1 * J1_Val_Y) + J1_Val_X - J2_Val_X + 100)
+            self.DataOutput['motor0'] = defense(J1_Val_Y + J1_Val_X + J2_Val_X - 100)
+            self.DataOutput['motor1'] = defense(J1_Val_Y - J1_Val_X - J2_Val_X + 100)
+            self.DataOutput['motor2'] = defense((-1 * J1_Val_Y) - J1_Val_X + J2_Val_X + 100)
+            self.DataOutput['motor3'] = defense((-1 * J1_Val_Y) + J1_Val_X - J2_Val_X + 100)
             # Подготовка массива для отправки на аппарат
             self.DataOutput['motor4'] = defense(J2_Val_Y)
             self.DataOutput['motor5'] = defense(J2_Val_Y)
@@ -453,18 +449,19 @@ class MainPost:
                 self.DataOutput['servoCam'] += data['servoCam']
 
             # Запись управляющего массива в лог 
-            if self.telemetria:
-                self.lodi.debug('DataOutput - {self.DataOutput}')
+            # if self.telemetria:
+            #     self.lodi.debug('DataOutput - {self.DataOutput}')
 
             # отправка и прием сообщений
             self.Server.ControlProteus(self.DataOutput)
+
             self.DataInput = self.Server.ReceiverProteus()
             # Запись принятого массива в лог 
-            if self.telemetria:
-                self.lodi.debug('DataInput - {self.DataInput}')
+            # if self.telemetria:
+            #     self.lodi.debug('DataInput - {self.DataInput}')
             # возможность вывода принимаемой информации в соммандную строку
-            if CmdMod:
-                print(self.DataInput)
+            # if CmdMod:
+            #     print(self.DataInput)
             # Проверка условия убийства сокета 
             if self.checkKILL:
                 self.Server.server.close()
