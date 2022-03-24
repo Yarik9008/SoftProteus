@@ -9,7 +9,7 @@ from ast import literal_eval  # модуль для перевода строк�
 from pyPS4Controller.controller import Controller
 from configparser import ConfigParser
 
-DEBUG = True
+DEBUG = False
 # PATCH = ''
 
 # class RovConfig:
@@ -90,7 +90,7 @@ class ServerMainPult:
             self.PORT = 1136
         else:
             self.HOST = '192.168.88.5'
-            self.PORT = 2275
+            self.PORT = 2276
             
             
         # настройка сервера
