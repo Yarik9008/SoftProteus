@@ -9,8 +9,7 @@ from ast import literal_eval  # модуль для перевода строк�
 from pyPS4Controller.controller import Controller
 from configparser import ConfigParser
 
-DEBUG = False
-
+DEBUG = True
 # PATCH = ''
 
 # class RovConfig:
@@ -88,10 +87,10 @@ class ServerMainPult:
         # выбор режима: Отладка\Запуск на реальном аппарате
         if debug:
             self.HOST = '127.0.0.1'
-            self.PORT = 1121
+            self.PORT = 1136
         else:
             self.HOST = '192.168.88.5'
-            self.PORT = 2273
+            self.PORT = 2274
             
             
         # настройка сервера
@@ -189,9 +188,9 @@ class MyController(Controller):
         '''Движение влево (лаг) '''
         if abs(value) > 15000: 
             if self.nitro:
-                self.DataPult['j2-val-x'] = -1 * value 
+                self.DataPult['j2-val-x'] =  value 
             else:
-                self.DataPult['j2-val-x'] = -1 * value // 2
+                self.DataPult['j2-val-x'] = value // 2
             if self.telemetria:
                 print('left')
 
@@ -215,9 +214,9 @@ class MyController(Controller):
         '''Вперед'''
         if abs(value)> 15000:
             if self.nitro:
-                self.DataPult['j1-val-x'] =  value 
+                self.DataPult['j1-val-y'] =  value 
             else:
-                self.DataPult['j1-val-x'] =  value // 2
+                self.DataPult['j1-val-y'] =  value // 2
             if self.telemetria:
                 print('up')
 
@@ -225,15 +224,15 @@ class MyController(Controller):
         '''назад'''
         if abs(value) > 15000:
             if self.nitro:
-                self.DataPult['j1-val-x'] = value 
+                self.DataPult['j1-val-y'] = value 
             else:
-                self.DataPult['j1-val-x'] =  value // 2
+                self.DataPult['j1-val-y'] =  value // 2
             if self.telemetria:
                 print('down')
 
     def on_R3_y_at_rest(self):
         '''Обнуление'''
-        self.DataPult['j1-val-x'] = 0
+        self.DataPult['j1-val-y'] = 0
         if self.telemetria:
             print('down')
 
@@ -241,9 +240,9 @@ class MyController(Controller):
         '''Разворот налево'''
         if abs(value) > 15000:
             if self.nitro:
-                self.DataPult['j1-val-y'] =  value // 3
+                self.DataPult['j1-val-x'] =  -1 * value // 3
             else:
-                self.DataPult['j1-val-y'] = value // 6
+                self.DataPult['j1-val-x'] =  -1 * value // 6
             if self.telemetria:
                 print('turn-left')
 
@@ -251,15 +250,15 @@ class MyController(Controller):
         '''Разворот направо'''
         if abs(value) > 15000:
             if self.nitro:
-                self.DataPult['j1-val-y'] =  value // 3
+                self.DataPult['j1-val-x'] =  -1 * value // 3
             else:
-                self.DataPult['j1-val-y'] =  value // 6
+                self.DataPult['j1-val-x'] =  -1 *value // 6
             if self.telemetria:
                 print('turn-left')
 
     def on_R3_x_at_rest(self):
         '''Обнуление'''
-        self.DataPult['j1-val-y'] = 0
+        self.DataPult['j1-val-x'] = 0
         if self.telemetria:
             print('turn-left')
 
@@ -424,15 +423,15 @@ class MainPost:
                 J2_Val_Y = transformation(data['j2-val-y'])
                 J2_Val_X = transformation(data['j2-val-x'])
 
-            self.DataOutput['motor0'] = defense(J1_Val_Y + J1_Val_X + J2_Val_X - 100)
-            self.DataOutput['motor1'] = defense(J1_Val_Y - J1_Val_X - J2_Val_X + 100)
-            self.DataOutput['motor2'] = defense((-1 * J1_Val_Y) - J1_Val_X + J2_Val_X + 100)
-            self.DataOutput['motor3'] = defense((-1 * J1_Val_Y) + J1_Val_X - J2_Val_X + 100)
+            self.DataOutput['motor0'] = defense(J1_Val_X + J1_Val_Y - J2_Val_X)
+            self.DataOutput['motor1'] = defense(J1_Val_X - J1_Val_Y - J2_Val_X + 100)
+            self.DataOutput['motor2'] = defense((-1 * J1_Val_X) - J1_Val_Y - J2_Val_X + 200)
+            self.DataOutput['motor3'] = defense((-1 * J1_Val_X) + J1_Val_Y - J2_Val_X + 100)
             # Подготовка массива для отправки на аппарат
             self.DataOutput['motor4'] = defense(J2_Val_Y)
             self.DataOutput['motor5'] = defense(J2_Val_Y)
 
-            print(self.DataOutput)
+            #print(self.DataOutput)
 
             self.DataOutput["time"] = str(datetime.now())
 
