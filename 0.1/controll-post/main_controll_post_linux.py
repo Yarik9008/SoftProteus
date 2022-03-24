@@ -91,7 +91,7 @@ class ServerMainPult:
             self.PORT = 1112
         else:
             self.HOST = '192.168.88.5'
-            self.PORT = 1235
+            self.PORT = 1236
             
             
         # настройка сервера
@@ -174,7 +174,7 @@ class MyController(Controller):
 
     def on_L3_down(self, value):
         '''всплытие'''
-        if abs(value) < 15000:
+        if abs(value) > 15000:
             self.DataPult['j2-val-y'] =  value
             if self.telemetria:
                 print('back')
