@@ -66,64 +66,64 @@ class PWMControll:
         # тест первого мотора
         self.drk0.angle = 0
         print('motor0: 0')
-        sleep(2)
+        sleep(10)
         self.drk0.angle = 180
         print('motor0: 180')
-        sleep(2)
+        sleep(10)
         self.drk0.angle = 87
 
         # тест второго мотора
         self.drk1.angle = 0
         print('motor1: 0')
-        sleep(2)
+        sleep(10)
         self.drk1.angle = 180
         print('motor1: 180')
-        sleep(2)
+        sleep(10)
         self.drk1.angle = 87
 
         # тест третьего мотора 
         self.drk2.angle = 0
         print('motor2: 0')
-        sleep(2)
+        sleep(10)
         self.drk2.angle = 180
         print('motor2: 180')
-        sleep(2)
+        sleep(10)
         self.drk2.angle = 87
 
         # тест четвертого мотора
         self.drk3.angle = 0
         print('motor3: 0')
-        sleep(2)
+        sleep(10)
         self.drk3.angle = 180
         print('motor3: 180')
-        sleep(2)
+        sleep(10)
         self.drk3.angle = 87
 
         # тест пятого мотора 
         self.drk4.angle = 0
         print('motor4: 0')
-        sleep(2)
+        sleep(10)
         self.drk4.angle = 180
         print('motor4: 180')
-        sleep(2)
+        sleep(10)
         self.drk4.angle = 87
 
         # тест шестого мотора 
         self.drk5.angle = 0
         print('motor5: 0')
-        sleep(2)
+        sleep(10)
         self.drk5.angle = 180
         print('motor5: 180')
-        sleep(2)
+        sleep(10)
         self.drk5.angle = 87
         
         #тест манипулятора 
         self.man.angle = 0
         print('man: 0')
-        sleep(2)
+        sleep(10)
         self.man.angle = 180 
         print('man: 180')
-        sleep(2)
+        sleep(10)
         
         # тест сервопривода камеры 
         self.servoCam.angle = 10
