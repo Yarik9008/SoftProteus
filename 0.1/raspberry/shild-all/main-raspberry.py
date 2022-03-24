@@ -330,7 +330,7 @@ class Command:
         
     def commanda(self, command):
         command['motor0'] = self.safety((command['motor0'] * 1.8) - 3)
-        command['motor1'] = self.safety((180 - command['motor1'] * 1.8) - 3)
+        command['motor1'] = self.safety((command['motor1'] * 1.8) - 3)
         command['motor2'] = self.safety((command['motor2'] * 1.8) - 3)
         command['motor3'] = self.safety((command['motor3'] * 1.8) - 3)
         command['motor4'] = self.safety((180 - command['motor4'] * 1.8) - 3)
