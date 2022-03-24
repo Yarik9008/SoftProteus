@@ -11,11 +11,11 @@ class PWMControll:
         # инициализация моторов
         self.kit = ServoKit(channels=16)
 
-        self.drk0 = self.kit.servo[0]
+        self.drk0 = self.kit.servo[2]
         self.drk0.set_pulse_width_range(1100, 1950)
         self.drk1 = self.kit.servo[1]
         self.drk1.set_pulse_width_range(1100, 1950)
-        self.drk2 = self.kit.servo[2]
+        self.drk2 = self.kit.servo[0]
         self.drk2.set_pulse_width_range(1100, 1950)
         self.drk3 = self.kit.servo[3]
         self.drk3.set_pulse_width_range(1100, 1950)
