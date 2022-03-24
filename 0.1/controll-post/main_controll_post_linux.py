@@ -1,4 +1,3 @@
-from msilib.schema import Patch
 import socket
 import threading  # модуль для разделения на потоки
 import logging
@@ -168,14 +167,14 @@ class MyController(Controller):
     # блок опроса джойстиков
     def on_L3_up(self, value):
         '''погружение'''
-        if value > 15000:
+        if abs(value) > 15000:
             self.DataPult['j2-val-y'] =  value
             if self.telemetria:
                 print('forward')
 
     def on_L3_down(self, value):
         '''всплытие'''
-        if value < 15000:
+        if abs(value) < 15000:
             self.DataPult['j2-val-y'] =  value
             if self.telemetria:
                 print('back')
@@ -188,7 +187,7 @@ class MyController(Controller):
 
     def on_L3_left(self, value):
         '''Движение влево (лаг) '''
-        if value > 15000: 
+        if abs(value) > 15000: 
             if self.nitro:
                 self.DataPult['j2-val-x'] = value 
             else:
@@ -198,7 +197,7 @@ class MyController(Controller):
 
     def on_L3_right(self, value):
         '''Движение вправо (лаг) '''
-        if value > 15000:
+        if abs(value) > 15000:
             if self.nitro:
                 self.DataPult['j2-val-x'] = value 
             else:
@@ -214,7 +213,7 @@ class MyController(Controller):
 
     def on_R3_up(self, value):
         '''Вперед'''
-        if value> 15000:
+        if abs(value)> 15000:
             if self.nitro:
                 self.DataPult['j1-val-y'] = -1 *  value 
             else:
@@ -224,7 +223,7 @@ class MyController(Controller):
 
     def on_R3_down(self, value):
         '''назад'''
-        if value > 15000:
+        if abs(value) > 15000:
             if self.nitro:
                 self.DataPult['j1-val-y'] = -1 * value 
             else:
@@ -240,7 +239,7 @@ class MyController(Controller):
 
     def on_R3_left(self, value):
         '''Разворот налево'''
-        if value > 15000:
+        if abs(value) > 15000:
             if self.nitro:
                 self.DataPult['j1-val-x'] = -1 * value // 3
             else:
@@ -250,7 +249,7 @@ class MyController(Controller):
 
     def on_R3_right(self, value):
         '''Разворот направо'''
-        if value > 15000:
+        if abs(value) > 15000:
             if self.nitro:
                 self.DataPult['j1-val-x'] = -1 * value // 3
             else:
