@@ -215,9 +215,9 @@ class MyController(Controller):
         '''Вперед'''
         if abs(value)> 15000:
             if self.nitro:
-                self.DataPult['j1-val-y'] = -1 *  value 
+                self.DataPult['j1-val-x'] = -1 *  value 
             else:
-                self.DataPult['j1-val-y'] = -1 * value // 2
+                self.DataPult['j1-val-x'] = -1 * value // 2
             if self.telemetria:
                 print('up')
 
@@ -225,9 +225,9 @@ class MyController(Controller):
         '''назад'''
         if abs(value) > 15000:
             if self.nitro:
-                self.DataPult['j1-val-y'] = -1 * value 
+                self.DataPult['j1-val-x'] = -1 * value 
             else:
-                self.DataPult['j1-val-y'] = -1 * value // 2
+                self.DataPult['j1-val-x'] = -1 * value // 2
             if self.telemetria:
                 print('down')
 
@@ -241,9 +241,9 @@ class MyController(Controller):
         '''Разворот налево'''
         if abs(value) > 15000:
             if self.nitro:
-                self.DataPult['j1-val-x'] = -1 * value // 3
+                self.DataPult['j1-val-y'] = -1 * value // 3
             else:
-                self.DataPult['j1-val-x'] = -1 * value // 6
+                self.DataPult['j1-val-y'] = -1 * value // 6
             if self.telemetria:
                 print('turn-left')
 
@@ -251,9 +251,9 @@ class MyController(Controller):
         '''Разворот направо'''
         if abs(value) > 15000:
             if self.nitro:
-                self.DataPult['j1-val-x'] = -1 * value // 3
+                self.DataPult['j1-val-y'] = -1 * value // 3
             else:
-                self.DataPult['j1-val-x'] = -1 * value // 6
+                self.DataPult['j1-val-y'] = -1 * value // 6
             if self.telemetria:
                 print('turn-left')
 
