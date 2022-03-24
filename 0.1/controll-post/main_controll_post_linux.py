@@ -80,7 +80,7 @@ class ServerMainPult:
 
     def __init__(self, logger: MedaLogging, debug=False):
         # инициализация атрибутов
-        self.JOYSTICKRATE = 0.1
+        self.JOYSTICKRATE = 0.2
         self.MotorPowerValue = 1
         self.telemetria = False
         self.checkConnect = False
@@ -91,7 +91,7 @@ class ServerMainPult:
             self.PORT = 1112
         else:
             self.HOST = '192.168.88.5'
-            self.PORT = 1235
+            self.PORT = 1220
             
             
         # настройка сервера
@@ -167,14 +167,14 @@ class MyController(Controller):
     # блок опроса джойстиков
     def on_L3_up(self, value):
         '''погружение'''
-        if abs(value) > 15000:
+        if abs(value) > 20000:
             self.DataPult['j2-val-y'] =  value
             if self.telemetria:
                 print('forward')
 
     def on_L3_down(self, value):
         '''всплытие'''
-        if abs(value) < 15000:
+        if abs(value) > 20000:
             self.DataPult['j2-val-y'] =  value
             if self.telemetria:
                 print('back')
@@ -187,7 +187,7 @@ class MyController(Controller):
 
     def on_L3_left(self, value):
         '''Движение влево (лаг) '''
-        if abs(value) > 15000: 
+        if abs(value) > 20000: 
             if self.nitro:
                 self.DataPult['j2-val-x'] = value 
             else:
@@ -197,7 +197,7 @@ class MyController(Controller):
 
     def on_L3_right(self, value):
         '''Движение вправо (лаг) '''
-        if abs(value) > 15000:
+        if abs(value) > 20000:
             if self.nitro:
                 self.DataPult['j2-val-x'] = value 
             else:
@@ -213,21 +213,21 @@ class MyController(Controller):
 
     def on_R3_up(self, value):
         '''Вперед'''
-        if abs(value)> 15000:
+        if abs(value)> 20000:
             if self.nitro:
-                self.DataPult['j1-val-x'] = -1 *  value 
+                self.DataPult['j1-val-y'] = -1 *  value
             else:
-                self.DataPult['j1-val-x'] = -1 * value // 2
+                self.DataPult['j1-val-y'] = -1 * value // 2
             if self.telemetria:
                 print('up')
 
     def on_R3_down(self, value):
         '''назад'''
-        if abs(value) > 15000:
+        if abs(value) > 20000:
             if self.nitro:
-                self.DataPult['j1-val-x'] = -1 * value 
+                self.DataPult['j1-val-y'] = -1 * value
             else:
-                self.DataPult['j1-val-x'] = -1 * value // 2
+                self.DataPult['j1-val-y'] = -1 * value // 2
             if self.telemetria:
                 print('down')
 
@@ -239,21 +239,21 @@ class MyController(Controller):
 
     def on_R3_left(self, value):
         '''Разворот налево'''
-        if abs(value) > 15000:
+        if abs(value) > 20000:
             if self.nitro:
-                self.DataPult['j1-val-y'] = -1 * value // 3
+                self.DataPult['j1-val-x'] =  value // 3
             else:
-                self.DataPult['j1-val-y'] = -1 * value // 6
+                self.DataPult['j1-val-x'] =  value // 6
             if self.telemetria:
                 print('turn-left')
 
     def on_R3_right(self, value):
         '''Разворот направо'''
-        if abs(value) > 15000:
+        if abs(value) > 20000:
             if self.nitro:
-                self.DataPult['j1-val-y'] = -1 * value // 3
+                self.DataPult['j1-val-x'] =  value // 3
             else:
-                self.DataPult['j1-val-y'] = -1 * value // 6
+                self.DataPult['j1-val-x'] = value // 6
             if self.telemetria:
                 print('turn-left')
 

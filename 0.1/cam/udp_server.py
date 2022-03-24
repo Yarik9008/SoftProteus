@@ -8,7 +8,7 @@ from datetime import datetime
 
 max_length = 650000
 
-DEBUG = True
+DEBUG = False
 RECORDING = True
 PATCH = '/home/yarik9001/video_proteus/'
 
