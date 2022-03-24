@@ -91,7 +91,7 @@ class ServerMainPult:
             self.PORT = 1112
         else:
             self.HOST = '192.168.88.5'
-            self.PORT = 1236
+            self.PORT = 1237
             
             
         # настройка сервера
@@ -233,7 +233,7 @@ class MyController(Controller):
 
     def on_R3_y_at_rest(self):
         '''Обнуление'''
-        self.DataPult['j1-val-y'] = 0
+        self.DataPult['j1-val-x'] = 0
         if self.telemetria:
             print('down')
 
@@ -259,7 +259,7 @@ class MyController(Controller):
 
     def on_R3_x_at_rest(self):
         '''Обнуление'''
-        self.DataPult['j1-val-x'] = 0
+        self.DataPult['j1-val-y'] = 0
         if self.telemetria:
             print('turn-left')
 
