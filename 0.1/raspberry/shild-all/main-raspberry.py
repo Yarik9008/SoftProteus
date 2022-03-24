@@ -66,7 +66,7 @@ class ROVProteusClient:
     def __init__(self, logger:MedaLogging):
         self.logger = logger
         self.HOST = '192.168.88.5'
-        self.PORT = 1303
+        self.PORT = 1304
         self.telemetria = True
         self.checkConnect = True      
         # Настройки клиента 
