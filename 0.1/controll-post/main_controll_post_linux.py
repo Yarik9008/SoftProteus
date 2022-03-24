@@ -91,7 +91,7 @@ class ServerMainPult:
             self.PORT = 1112
         else:
             self.HOST = '192.168.88.5'
-            self.PORT = 1229
+            self.PORT = 1300
             
             
         # настройка сервера
@@ -215,9 +215,9 @@ class MyController(Controller):
         '''Вперед'''
         if abs(value)> 20000:
             if self.nitro:
-                self.DataPult['j1-val-y'] = -1 *  value
+                self.DataPult['j1-val-y'] =  value
             else:
-                self.DataPult['j1-val-y'] = -1 * value // 2
+                self.DataPult['j1-val-y'] = value // 2
             if self.telemetria:
                 print('up')
 
@@ -225,9 +225,9 @@ class MyController(Controller):
         '''назад'''
         if abs(value) > 20000:
             if self.nitro:
-                self.DataPult['j1-val-y'] = -1 * value
+                self.DataPult['j1-val-y'] = value
             else:
-                self.DataPult['j1-val-y'] = -1 * value // 2
+                self.DataPult['j1-val-y'] = value // 2
             if self.telemetria:
                 print('down')
 
