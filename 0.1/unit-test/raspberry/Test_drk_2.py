@@ -12,17 +12,17 @@ class PWMControll:
         self.kit = ServoKit(channels=16)
 
         self.drk0 = self.kit.servo[0]
-        self.drk0.set_pulse_width_range(1100, 1900)
+        self.drk0.set_pulse_width_range(1100, 1950)
         self.drk1 = self.kit.servo[1]
-        self.drk1.set_pulse_width_range(1100, 1900)
+        self.drk1.set_pulse_width_range(1100, 1950)
         self.drk2 = self.kit.servo[2]
-        self.drk2.set_pulse_width_range(1100, 1900)
+        self.drk2.set_pulse_width_range(1100, 1950)
         self.drk3 = self.kit.servo[3]
-        self.drk3.set_pulse_width_range(1100, 1900)
+        self.drk3.set_pulse_width_range(1100, 1950)
         self.drk4 = self.kit.servo[4]
-        self.drk4.set_pulse_width_range(1000, 1900)
+        self.drk4.set_pulse_width_range(1100, 1950)
         self.drk5 = self.kit.servo[5]
-        self.drk5.set_pulse_width_range(1000, 1900)
+        self.drk5.set_pulse_width_range(1100, 1950)
         
         # взаимодействие с манипулятором
         self.man = self.kit.servo[6]
@@ -71,6 +71,7 @@ class PWMControll:
         print('motor0: 180')
         sleep(2)
         self.drk0.angle = 87
+
         # тест второго мотора
         self.drk1.angle = 0
         print('motor1: 0')
@@ -79,6 +80,7 @@ class PWMControll:
         print('motor1: 180')
         sleep(2)
         self.drk1.angle = 87
+
         # тест третьего мотора 
         self.drk2.angle = 0
         print('motor2: 0')
@@ -87,6 +89,7 @@ class PWMControll:
         print('motor2: 180')
         sleep(2)
         self.drk2.angle = 87
+
         # тест четвертого мотора
         self.drk3.angle = 0
         print('motor3: 0')
@@ -95,6 +98,7 @@ class PWMControll:
         print('motor3: 180')
         sleep(2)
         self.drk3.angle = 87
+
         # тест пятого мотора 
         self.drk4.angle = 0
         print('motor4: 0')
@@ -103,6 +107,7 @@ class PWMControll:
         print('motor4: 180')
         sleep(2)
         self.drk4.angle = 87
+
         # тест шестого мотора 
         self.drk5.angle = 0
         print('motor5: 0')

@@ -26,7 +26,7 @@ class MedaLogging:
         self.mylogs = logging.getLogger(__name__)
         self.mylogs.setLevel(logging.DEBUG)
         # обработчик записи в лог-файл
-        name = 'log/controll-post/' + '-'.join('-'.join('-'.join(str(datetime.now()
+        name = '/home/yarik9001/SoftProteus/0.1/controll-post/' + '-'.join('-'.join('-'.join(str(datetime.now()
                                               ).split()).split('.')).split(':')) + '.log'
         self.file = logging.FileHandler(name)
         self.fileformat = logging.Formatter(
