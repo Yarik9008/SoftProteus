@@ -9,7 +9,7 @@ from ast import literal_eval  # модуль для перевода строк�
 from pyPS4Controller.controller import Controller
 from configparser import ConfigParser
 
-DEBUG = False
+DEBUG = True
 
 # PATCH = ''
 
@@ -26,7 +26,7 @@ class MedaLogging:
         self.mylogs = logging.getLogger(__name__)
         self.mylogs.setLevel(logging.DEBUG)
         # обработчик записи в лог-файл
-        name = 'log/controll-post/' + '-'.join('-'.join('-'.join(str(datetime.now()
+        name = '/home/yarik9001/SoftProteus/0.1/controll-post/log/controll-post' + '-'.join('-'.join('-'.join(str(datetime.now()
                                               ).split()).split('.')).split(':')) + '.log'
         self.file = logging.FileHandler(name)
         self.fileformat = logging.Formatter(
@@ -88,10 +88,10 @@ class ServerMainPult:
         # выбор режима: Отладка\Запуск на реальном аппарате
         if debug:
             self.HOST = '127.0.0.1'
-            self.PORT = 1112
+            self.PORT = 1117
         else:
             self.HOST = '192.168.88.5'
-            self.PORT = 1304
+            self.PORT = 1305
             
             
         # настройка сервера
@@ -431,6 +431,8 @@ class MainPost:
             # Подготовка массива для отправки на аппарат
             self.DataOutput['motor4'] = defense(J2_Val_Y)
             self.DataOutput['motor5'] = defense(J2_Val_Y)
+
+            print(self.DataOutput)
 
             self.DataOutput["time"] = str(datetime.now())
 

@@ -28,8 +28,7 @@ class MedaLogging:
         # инициализация обработчиков
         self.mylogs.addHandler(self.file)
         self.mylogs.addHandler(self.stream)
-        coloredlogs.install(level=logging.DEBUG, logger=self.mylogs,
-                            fmt='%(asctime)s [%(levelname)s] - %(message)s')
+
 
         self.mylogs.info('start-logging')
 
@@ -54,7 +53,7 @@ class ROVProteusClient:
     def __init__(self, logger: MedaLogging):
         self.logger = logger
         self.HOST = '127.0.0.1'
-        self.PORT = 1115
+        self.PORT = 1117
         self.telemetria = True
         self.checkConnect = True
         # Настройки клиента
