@@ -9,7 +9,7 @@ from ast import literal_eval  # модуль для перевода строк�
 from pyPS4Controller.controller import Controller
 from configparser import ConfigParser
 
-DEBUG = True
+DEBUG = False
 
 # PATCH = ''
 
@@ -26,7 +26,7 @@ class MedaLogging:
         self.mylogs = logging.getLogger(__name__)
         self.mylogs.setLevel(logging.DEBUG)
         # обработчик записи в лог-файл
-        name = '/home/yarik9001/SoftProteus/0.1/controll-post/log/controll-post' + '-'.join('-'.join('-'.join(str(datetime.now()
+        name = 'log/controll-post/' + '-'.join('-'.join('-'.join(str(datetime.now()
                                               ).split()).split('.')).split(':')) + '.log'
         self.file = logging.FileHandler(name)
         self.fileformat = logging.Formatter(
@@ -80,7 +80,7 @@ class ServerMainPult:
 
     def __init__(self, logger: MedaLogging, debug=False):
         # инициализация атрибутов
-        self.JOYSTICKRATE = 0.2
+        self.JOYSTICKRATE = 0.1
         self.MotorPowerValue = 1
         self.telemetria = False
         self.checkConnect = False
@@ -88,10 +88,10 @@ class ServerMainPult:
         # выбор режима: Отладка\Запуск на реальном аппарате
         if debug:
             self.HOST = '127.0.0.1'
-            self.PORT = 1117
+            self.PORT = 1112
         else:
             self.HOST = '192.168.88.5'
-            self.PORT = 1305
+            self.PORT = 1235
             
             
         # настройка сервера
@@ -167,14 +167,14 @@ class MyController(Controller):
     # блок опроса джойстиков
     def on_L3_up(self, value):
         '''погружение'''
-        if abs(value) > 20000:
+        if abs(value) > 15000:
             self.DataPult['j2-val-y'] =  value
             if self.telemetria:
                 print('forward')
 
     def on_L3_down(self, value):
         '''всплытие'''
-        if abs(value) > 20000:
+        if abs(value) < 15000:
             self.DataPult['j2-val-y'] =  value
             if self.telemetria:
                 print('back')
@@ -187,7 +187,7 @@ class MyController(Controller):
 
     def on_L3_left(self, value):
         '''Движение влево (лаг) '''
-        if abs(value) > 20000: 
+        if abs(value) > 15000: 
             if self.nitro:
                 self.DataPult['j2-val-x'] = value 
             else:
@@ -197,7 +197,7 @@ class MyController(Controller):
 
     def on_L3_right(self, value):
         '''Движение вправо (лаг) '''
-        if abs(value) > 20000:
+        if abs(value) > 15000:
             if self.nitro:
                 self.DataPult['j2-val-x'] = value 
             else:
@@ -213,21 +213,21 @@ class MyController(Controller):
 
     def on_R3_up(self, value):
         '''Вперед'''
-        if abs(value)> 20000:
+        if abs(value)> 15000:
             if self.nitro:
-                self.DataPult['j1-val-y'] =  value
+                self.DataPult['j1-val-x'] = -1 *  value 
             else:
-                self.DataPult['j1-val-y'] = value // 2
+                self.DataPult['j1-val-x'] = -1 * value // 2
             if self.telemetria:
                 print('up')
 
     def on_R3_down(self, value):
         '''назад'''
-        if abs(value) > 20000:
+        if abs(value) > 15000:
             if self.nitro:
-                self.DataPult['j1-val-y'] = value
+                self.DataPult['j1-val-x'] = -1 * value 
             else:
-                self.DataPult['j1-val-y'] = value // 2
+                self.DataPult['j1-val-x'] = -1 * value // 2
             if self.telemetria:
                 print('down')
 
@@ -239,21 +239,21 @@ class MyController(Controller):
 
     def on_R3_left(self, value):
         '''Разворот налево'''
-        if abs(value) > 20000:
+        if abs(value) > 15000:
             if self.nitro:
-                self.DataPult['j1-val-x'] =  value // 3
+                self.DataPult['j1-val-y'] = -1 * value // 3
             else:
-                self.DataPult['j1-val-x'] =  value // 6
+                self.DataPult['j1-val-y'] = -1 * value // 6
             if self.telemetria:
                 print('turn-left')
 
     def on_R3_right(self, value):
         '''Разворот направо'''
-        if abs(value) > 20000:
+        if abs(value) > 15000:
             if self.nitro:
-                self.DataPult['j1-val-x'] =  value // 3
+                self.DataPult['j1-val-y'] = -1 * value // 3
             else:
-                self.DataPult['j1-val-x'] = value // 6
+                self.DataPult['j1-val-y'] = -1 * value // 6
             if self.telemetria:
                 print('turn-left')
 
@@ -424,15 +424,17 @@ class MainPost:
                 J2_Val_Y = transformation(data['j2-val-y'])
                 J2_Val_X = transformation(data['j2-val-x'])
 
-            self.DataOutput['motor0'] = defense(J1_Val_Y + J1_Val_X + J2_Val_X - 100)
-            self.DataOutput['motor1'] = defense(J1_Val_Y - J1_Val_X - J2_Val_X + 100)
-            self.DataOutput['motor2'] = defense((-1 * J1_Val_Y) - J1_Val_X + J2_Val_X + 100)
-            self.DataOutput['motor3'] = defense((-1 * J1_Val_Y) + J1_Val_X - J2_Val_X + 100)
+            self.DataOutput['motor0'] = defense(
+                J1_Val_Y + J1_Val_X + J2_Val_X - 100)
+            self.DataOutput['motor1'] = defense(
+                J1_Val_Y - J1_Val_X - J2_Val_X + 100)
+            self.DataOutput['motor2'] = defense(
+                (-1 * J1_Val_Y) - J1_Val_X + J2_Val_X + 100)
+            self.DataOutput['motor3'] = defense(
+                (-1 * J1_Val_Y) + J1_Val_X - J2_Val_X + 100)
             # Подготовка массива для отправки на аппарат
             self.DataOutput['motor4'] = defense(J2_Val_Y)
             self.DataOutput['motor5'] = defense(J2_Val_Y)
-
-            print(self.DataOutput)
 
             self.DataOutput["time"] = str(datetime.now())
 
@@ -451,19 +453,18 @@ class MainPost:
                 self.DataOutput['servoCam'] += data['servoCam']
 
             # Запись управляющего массива в лог 
-            # if self.telemetria:
-            #     self.lodi.debug('DataOutput - {self.DataOutput}')
+            if self.telemetria:
+                self.lodi.debug('DataOutput - {self.DataOutput}')
 
             # отправка и прием сообщений
             self.Server.ControlProteus(self.DataOutput)
-
             self.DataInput = self.Server.ReceiverProteus()
             # Запись принятого массива в лог 
-            # if self.telemetria:
-            #     self.lodi.debug('DataInput - {self.DataInput}')
+            if self.telemetria:
+                self.lodi.debug('DataInput - {self.DataInput}')
             # возможность вывода принимаемой информации в соммандную строку
-            # if CmdMod:
-            #     print(self.DataInput)
+            if CmdMod:
+                print(self.DataInput)
             # Проверка условия убийства сокета 
             if self.checkKILL:
                 self.Server.server.close()

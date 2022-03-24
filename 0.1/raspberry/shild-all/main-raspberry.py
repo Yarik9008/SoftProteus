@@ -66,7 +66,7 @@ class ROVProteusClient:
     def __init__(self, logger:MedaLogging):
         self.logger = logger
         self.HOST = '192.168.88.5'
-        self.PORT = 1304
+        self.PORT = 1235
         self.telemetria = True
         self.checkConnect = True      
         # Настройки клиента 
@@ -329,11 +329,11 @@ class Command:
             return value
         
     def commanda(self, command):
-        command['motor0'] = self.safety((command['motor0'] * 1.8) - 3)
+        command['motor0'] = self.safety((180 - command['motor0'] * 1.8) - 3)
         command['motor1'] = self.safety((command['motor1'] * 1.8) - 3)
         command['motor2'] = self.safety((command['motor2'] * 1.8) - 3)
         command['motor3'] = self.safety((command['motor3'] * 1.8) - 3)
-        command['motor4'] = self.safety((command['motor4'] * 1.8) - 3)
+        command['motor4'] = self.safety((180 - command['motor4'] * 1.8) - 3)
         command['motor5'] = self.safety((command['motor5'] * 1.8) - 3)
         self.pwmcom.ControlMotor(command)
 
