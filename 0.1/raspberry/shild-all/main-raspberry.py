@@ -201,7 +201,7 @@ class DeptAndTemp:
         # опрос датчика давления
         if self.sensor.read():
             massout = {}
-            massout['dept'] = round(self.sensor.depth(), 3) - self.dept_defolt
+            massout['dept'] = round(self.sensor.depth(), 3) - self.dept_defolt - 10.4
             print('dept: ', massout['dept'])
             massout['term'] = round(self.sensor.temperature(), 3)
             return massout
