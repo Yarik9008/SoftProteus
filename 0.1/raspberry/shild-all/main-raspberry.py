@@ -35,7 +35,7 @@ class MedaLogging:
         self.stream = logging.StreamHandler()
         self.streamformat = logging.Formatter(
             "%(levelname)s:%(module)s:%(message)s")
-        self.stream.setLevel(logging.DEBUG)
+        self.stream.setLevel(logging.WARNING)
         self.stream.setFormatter(self.streamformat)
         # инициализация обработчиков
         self.mylogs.addHandler(self.file)
@@ -66,7 +66,8 @@ class ROVProteusClient:
     def __init__(self, logger:MedaLogging):
         self.logger = logger
         self.HOST = '192.168.88.5'
-        self.PORT = 2277
+        self.PORT = 2278
+        
         self.telemetria = True
         self.checkConnect = True      
         # Настройки клиента 
@@ -201,6 +202,7 @@ class DeptAndTemp:
         if self.sensor.read():
             massout = {}
             massout['dept'] = round(self.sensor.depth(), 3) - self.dept_defolt
+            print('dept: ', massout['dept'])
             massout['term'] = round(self.sensor.temperature(), 3)
             return massout
         else:
@@ -309,6 +311,7 @@ class ReqiestSensor:
         # опрос датчиков; возвращает обьект класса словарь 
         massacp  = self.acp.ReqestAmper()
         massaz = self.mpu9250.reqiest()
+        print('azim: ', massaz['azim'])
         massMs5837 = self.ms5837.reqiest()
         
         massout = {**massacp, **massaz, **massMs5837}
