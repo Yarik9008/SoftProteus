@@ -16,7 +16,7 @@ if DEBUG:
     host = '127.0.0.1'
     port = 2224
 else:
-    host = '192.168.88.252'
+    host = '192.168.88.7'
     port = 5001
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((host, port))
