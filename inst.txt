@@ -4,4 +4,14 @@ sudo apt update
 
 sudo apt install python3-opencv
 
-# 
+# настройка удаленного рабочего стола 
+
+sudo -s
+
+echo 'hdmi_force_hotplug=1'>> /boot/config.txt
+
+echo 'hdmi_group=2'>> /boot/config.txt
+
+echo 'hdmi_mode=51'>> /boot/config.txt
+
+sudo reboot
