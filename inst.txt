@@ -1,0 +1,7 @@
+# установка opencv2 
+
+sudo apt update
+
+sudo apt install python3-opencv
+
+# 

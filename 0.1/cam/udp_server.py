@@ -16,7 +16,7 @@ if DEBUG:
     host = '127.0.0.1'
     port = 2224
 else:
-    host = '192.168.88.5'
+    host = '192.168.88.252'
     port = 5001
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((host, port))
@@ -49,8 +49,8 @@ while True:
             frame = cv2.imdecode(frame, cv2.IMREAD_COLOR)
             if frame is not None and type(frame) == np.ndarray:
                 cl=100
-                wig = int(frame.shape[1] * cl / 60)
-                he = int(frame.shape[0] * cl / 60)
+                wig = int(frame.shape[1] * cl / 100)
+                he = int(frame.shape[0] * cl / 100)
                 frame = cv2.resize(frame,(wig, he),interpolation=cv2.INTER_AREA)
                 
                 cv2.imshow("Stream", frame)
